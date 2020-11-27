@@ -4,7 +4,8 @@
   "description": "Api de prueba version 1.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose --coverage --forceExit",
+    "start": "node index"
   },
   "repository": {
     "type": "git",
@@ -23,12 +24,19 @@
   "homepage": "https://github.com/leoaguilar97/nodejs-react-testing#readme",
   "dependencies": {
     "app-root-path": "^3.0.0",
+    "chai": "^4.2.0",
     "config": "^3.3.3",
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
     "express-winston": "^4.0.5",
+    "jest": "^26.6.3",
     "mongoose": "^5.10.16",
     "nanoid": "^3.1.18",
+    "sinon": "^9.2.1",
     "winston": "^3.3.3"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
   }
 }

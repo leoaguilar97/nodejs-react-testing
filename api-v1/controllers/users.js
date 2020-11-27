@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const UserService = require('../services/users');
+const UserService = require('../services/users').Transaction;
 
 const { UPDATE, GET_ALL, CREATE, DELETE_ONE, GET_ONE, DELETE_ALL } = require('../services/operations');
 

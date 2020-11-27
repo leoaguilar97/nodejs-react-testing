@@ -4,6 +4,9 @@ const config = require('config');
 const db = config.get('mongoURI');
 
 const connectDB = async () => {
+    if (process.env.NODE_ENV == 'test') {
+        console.log('TESTING!');
+    }
     try {
         await mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
         global.log.debug('MongoDB conectado');

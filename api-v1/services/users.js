@@ -1,6 +1,8 @@
 
-const User = require('../models/User');
 const { GET, GET_ALL, UPDATE, CREATE, DELETE, DELETE_ONE, GET_ONE, DELETE_ALL } = require('./operations');
+
+module.exports.User = require('../models/User');
+const User = module.exports.User;
 
 // Obtener todos los usuarios
 const getAll = async () => {
@@ -21,6 +23,9 @@ const get = async code => {
 // Crear un usuario 
 const create = async userData => {
     const user = new User(userData);
+    console.log(User);
+    console.log(user);
+    console.log(user.save);
     const newUser = await user.save();
 
     return { result: newUser };
@@ -93,4 +98,4 @@ const transaction = async (operation, params) => {
     }
 };
 
-module.exports = transaction;
+module.exports.Transaction = transaction;
