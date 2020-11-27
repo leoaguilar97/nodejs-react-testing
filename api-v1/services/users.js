@@ -11,7 +11,7 @@ const getAll = async () => {
 
 // Obtener un usuario por su codigo
 const get = async code => {
-    const user = await User.findOne({ code: code }).exec();
+    const user = await User.findOne({ code }).exec();
     if (!user) {
         throw { message: 'Usuario no encontrado', status: 404 };
     }
@@ -29,7 +29,7 @@ const create = async userData => {
 // Modificar los datos de un usuario
 const update = async (code, userData) => {
 
-    const modifiedUser = await User.findOneAndUpdate({ code: code }, { $set: userData }, { new: true });
+    const modifiedUser = await User.findOneAndUpdate({ code }, { $set: userData }, { new: true });
 
     if (!modifiedUser) {
         throw { message: 'Usuario no encontrado', status: 404 };
@@ -41,7 +41,7 @@ const update = async (code, userData) => {
 // Eliminar un usuario
 const deleteOne = async (code) => {
 
-    const removedUser = await User.findOneAndDelete({ code: code });
+    const removedUser = await User.findOneAndDelete({ code });
 
     if (!removedUser) {
         throw { message: 'Usuario no encontrado', status: 404 };
@@ -62,8 +62,7 @@ const transaction = async (operation, params) => {
 
     const { code, name } = params;
 
-    console.log(code);
-    console.log(name);
+    global.log.debug({ message: 'Realizando transaccion', code, operation, name });
 
     try {
         switch (operation) {
@@ -89,6 +88,7 @@ const transaction = async (operation, params) => {
         }
     }
     catch (err) {
+        await global.log.error(err);
         return { error: err.message, status: err.status || 500 }
     }
 };

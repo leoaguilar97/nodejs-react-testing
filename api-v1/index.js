@@ -24,4 +24,4 @@ app.use(expressWinston.errorLogger({
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server iniciado en http://localhost:${PORT}`));
+app.listen(PORT, () => global.log.info(`API Iniciada en http://localhost:${PORT}`));

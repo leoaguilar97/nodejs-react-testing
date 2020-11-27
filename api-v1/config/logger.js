@@ -1,5 +1,8 @@
 const winston = require('winston');
 const appRoot = require('app-root-path');
+const { json } = require('express');
+
+const { timestamp, combine } = winston.format;
 
 const expressLogFile = new winston.transports.File({
     level: 'info',
@@ -34,7 +37,7 @@ const infoLogFile = new winston.transports.File({
 const errorsLogFile = new winston.transports.File({
     level: 'error',
     filename: `${appRoot}/logs/errors.log`,
-    handleExceptions: true,
+    handleExceptions: false,
     json: true,
     maxsize: 5242880,
     maxFiles: 5,
@@ -42,8 +45,11 @@ const errorsLogFile = new winston.transports.File({
 });
 
 const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
+    level: 'debug',
+    format: combine(
+        timestamp(),
+        winston.format.json()
+    ),
     defaultMeta: { service: 'user-service' },
     transports: [
         errorsLogFile,
@@ -55,11 +61,12 @@ if (process.env.NODE_ENV !== 'production') {
     logger.add(new winston.transports.Console({
         format: winston.format.combine(
             winston.format.colorize(),
-            winston.format.json()
+            winston.format.simple(),
+            timestamp()
         )
     }));
 }
 
-global.logger = logger;
+global.log = logger;
 
 module.exports = { expressLogFile, expressErrorFile };
