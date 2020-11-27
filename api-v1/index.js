@@ -1,17 +1,26 @@
 const express = require('express');
 const app = express();
 const connectDB = require('./config/db');
-const User = require('./models/User');
+const expressWinston = require('express-winston');
+const logFiles = require('./config/logger');
 
 connectDB();
 
 app.use(express.json({ extended: false }));
 
-app.get('/', async (req, res) => {
-    res.send(`API activa ${newUser}`);
-});
+app.use(expressWinston.logger({
+    transports: [
+        logFiles.expressLogFile
+    ]
+}));
 
-app.use('/api/users', require('./controllers/users'));
+app.use('/api/v1/users', require('./controllers/users'));
+
+app.use(expressWinston.errorLogger({
+    transports: [
+        logFiles.expressErrorFile
+    ]
+}));
 
 const PORT = process.env.PORT || 5000;
 

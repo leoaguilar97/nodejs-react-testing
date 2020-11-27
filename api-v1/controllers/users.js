@@ -6,12 +6,13 @@ const UserService = require('../services/users');
 const { UPDATE, GET_ALL, CREATE, DELETE_ONE, GET_ONE, DELETE_ALL } = require('../services/operations');
 
 // Crear una transaccion en la base de datos
-const createTransaction = async (operation, params, res) => {
+const createTransaction = async (operation, params, res, next) => {
 
     const { status, error, result } = await UserService(operation, params);
 
     if (error) {
-        return res.status(status).send(error);
+        res.status(status).send(error);
+        return next({ status, error });
     }
     else {
         return res.status(status || 200).json(result);
@@ -34,15 +35,15 @@ const validationPassed = (req, res) => {
 // @route   GET api/users
 // @desc    Obtener todos los usuarios
 // @access  Public
-router.get('/', (_req, res) => {
-    createTransaction(GET_ALL, {}, res);
+router.get('/', (_req, res, next) => {
+    createTransaction(GET_ALL, {}, res, next);
 });
 
 // @route   GET api/users:code
 // @desc    Obtener un usuario especifico
 // @access  Public
-router.get('/:code', (req, res) => {
-    createTransaction(GET_ONE, req.params, res);
+router.get('/:code', (req, res, next) => {
+    createTransaction(GET_ONE, req.params, res, next);
 });
 
 // @route   POST api/users
@@ -53,9 +54,9 @@ router.post('/',
         check('name', 'Por favor incluye un nombre').not().isEmpty(),
         check('name', 'Minimo 2 caracteres, maximo 50').isLength({ min: 2, max: 50 })
     ],
-    (req, res) => {
+    (req, res, next) => {
         if (validationPassed(req, res)) {
-            createTransaction(CREATE, req.body, res);
+            createTransaction(CREATE, req.body, res, next);
         }
     });
 
@@ -67,12 +68,12 @@ router.put('/:code',
         check('name', 'Por favor incluye un nombre').not().isEmpty(),
         check('name', 'Minimo 2 caracteres, maximo 50').isLength({ min: 2, max: 50 })
     ],
-    (req, res) => {
+    (req, res, next) => {
         if (validationPassed(req, res)) {
             const { code } = req.params;
             const { name } = req.body;
 
-            createTransaction(UPDATE, { code: code, name: name }, res);
+            createTransaction(UPDATE, { code: code, name: name }, res, next);
         }
     });
 
@@ -80,16 +81,16 @@ router.put('/:code',
 // @desc    Elimina todos los usuarios
 // @access  Public
 router.delete('/',
-    (_req, res) => {
-        createTransaction(DELETE_ALL, {}, res);
+    (_req, res, next) => {
+        createTransaction(DELETE_ALL, {}, res, next);
     });
 
 // @route   DELETE api/users:code
 // @desc    Elimina un usuario por su codigo
 // @access  Public
 router.delete('/:code',
-    (req, res) => {
-        createTransaction(DELETE_ONE, req.params, res);
+    (req, res, next) => {
+        createTransaction(DELETE_ONE, req.params, res, next);
     });
 
 module.exports = router;

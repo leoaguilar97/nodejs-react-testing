@@ -22,10 +22,13 @@
   },
   "homepage": "https://github.com/leoaguilar97/nodejs-react-testing#readme",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "config": "^3.3.3",
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
+    "express-winston": "^4.0.5",
     "mongoose": "^5.10.16",
-    "nanoid": "^3.1.18"
+    "nanoid": "^3.1.18",
+    "winston": "^3.3.3"
   }
 }
