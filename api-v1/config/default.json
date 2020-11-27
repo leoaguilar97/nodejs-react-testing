@@ -1,0 +1,5 @@
+
+{
+    "mongoURI": "mongodb+srv://devio:L7QkkEupvYmkFSM6@deviomaincluster.ivjsc.mongodb.net/testing?retryWrites=true&w=majority",
+    "alphabet": "1234567890abcdefghijklmnopqrstuvwxyz"
+}
