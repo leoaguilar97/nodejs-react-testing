@@ -3,8 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const UserService = require('../services/users');
 
-const User = require('../models/User');
-
 const { UPDATE, GET_ALL, CREATE, DELETE_ONE, GET_ONE, DELETE_ALL } = require('../services/operations');
 
 // Crear una transaccion en la base de datos
