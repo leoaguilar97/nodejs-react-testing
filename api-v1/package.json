@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
     "express-winston": "^4.0.5",
+    "faker": "^5.1.0",
     "jest": "^26.6.3",
     "mongoose": "^5.10.16",
     "nanoid": "^3.1.18",

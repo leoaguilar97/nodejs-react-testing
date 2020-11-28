@@ -1,7 +1,7 @@
 
 const { GET, GET_ALL, UPDATE, CREATE, DELETE, DELETE_ONE, GET_ONE, DELETE_ALL } = require('./operations');
 
-module.exports.User = require('../models/User');
+module.exports.User = require('../repositories/users');
 const User = module.exports.User;
 
 // Obtener todos los usuarios

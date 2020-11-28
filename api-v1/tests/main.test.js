@@ -1,10 +1,10 @@
 const chai = require('chai');
 const sinon = require('sinon');
+const faker = require('faker');
+
 const { expect } = chai;
 
-const UserService = require('../services/users');
-const UserController = require('../controllers/users');
-const { GET_ONE, CREATE } = require('../services/operations');
+const Users = require('../controllers/users');
 
 global.log = {
     info: console.log,
@@ -23,27 +23,50 @@ afterEach(function () {
 });
 
 describe('Usuarios', () => {
-    it('Obtener todos los usuarios', async () => {
+    it('Obtener todos los usuarios', done => {
+
+        let req = {};
+        let res = {
+            send: () => { },
+            status: sinon.stub().returnsThis()
+        };
+
+
+        const mock = sinon.mock(res);
+
+        mock.expects("send").once().withExactArgs({
+            message: "Usuario actualizado correctamente."
+        });
+
+        Users.get()
+
+        expect(res.status.calledOnce).to.be.true;
+        expect(res.status.firstCall.calledWithExactly(200)).to.be.true;
+
+        mock.verify();
+
+        done();
+
         return true;
     });
 
-    it('Obtener un usuario', async () => {
+    it('Obtener un usuario', done => {
         return true;
     });
 
-    it('Crear un usuario', async () => {
+    it('Crear un usuario', done => {
         return true;
     });
 
-    it('Modificar un usuario', async () => {
+    it('Modificar un usuario', done => {
         return true;
     });
 
-    it('Eliminar un usuario', async () => {
+    it('Eliminar un usuario', done => {
         return true;
     });
 
-    it('Eliminar todos los usuarios', async () => {
+    it('Eliminar todos los usuarios', done => {
         return true;
     });
 });
