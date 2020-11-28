@@ -12,6 +12,10 @@ global.log = {
     error: console.error
 };
 
+/*
+TODO: Realizar pruebas, solo se inicializó el framework.
+*/
+
 var sandbox;
 beforeEach(function () {
     sandbox = sinon.createSandbox();
@@ -38,9 +42,9 @@ describe('Usuarios', () => {
             message: "Usuario actualizado correctamente."
         });
 
-        Users.get()
+        Users.
 
-        expect(res.status.calledOnce).to.be.true;
+            expect(res.status.calledOnce).to.be.true;
         expect(res.status.firstCall.calledWithExactly(200)).to.be.true;
 
         mock.verify();
