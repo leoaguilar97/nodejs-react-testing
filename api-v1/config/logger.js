@@ -1,12 +1,12 @@
 const winston = require('winston');
-const appRoot = require('app-root-path');
-const { json } = require('express');
 
 const { timestamp, combine } = winston.format;
 
+const { LOG_PATH, LOG_LEVEL } = require('../config');
+
 const expressLogFile = new winston.transports.File({
-    level: 'info',
-    filename: `${appRoot}/logs/app.log`,
+    level: LOG_LEVEL,
+    filename: `${LOG_PATH}/api.info.log`,
     handleExceptions: true,
     json: true,
     maxsize: 5242880,
@@ -16,7 +16,7 @@ const expressLogFile = new winston.transports.File({
 
 const expressErrorFile = new winston.transports.File({
     level: 'error',
-    filename: `${appRoot}/logs/app.errors.log`,
+    filename: `${LOG_PATH}/api.errors.log`,
     handleExceptions: true,
     json: true,
     maxsize: 5242880,
@@ -25,8 +25,8 @@ const expressErrorFile = new winston.transports.File({
 });
 
 const infoLogFile = new winston.transports.File({
-    level: 'info',
-    filename: `${appRoot}/logs/info.log`,
+    level: LOG_LEVEL,
+    filename: `${LOG_PATH}/info.log`,
     handleExceptions: true,
     json: true,
     maxsize: 5242880,
@@ -36,7 +36,7 @@ const infoLogFile = new winston.transports.File({
 
 const errorsLogFile = new winston.transports.File({
     level: 'error',
-    filename: `${appRoot}/logs/errors.log`,
+    filename: `${LOG_PATH}/errors.log`,
     handleExceptions: false,
     json: true,
     maxsize: 5242880,
@@ -45,7 +45,7 @@ const errorsLogFile = new winston.transports.File({
 });
 
 const logger = winston.createLogger({
-    level: 'debug',
+    level: LOG_LEVEL,
     format: combine(
         timestamp(),
         winston.format.json()

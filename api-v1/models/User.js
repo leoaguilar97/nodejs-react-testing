@@ -1,9 +1,10 @@
 
 const nanoid = require('nanoid');
 const mongoose = require('mongoose');
-const config = require('config');
 
-const randomId = nanoid.customAlphabet(config.get('alphabet'), 8);
+const alphabet = process.env.ALPHABET;
+
+const randomId = nanoid.customAlphabet(alphabet, 8);
 
 const UserSchema = new mongoose.Schema({
     code: {

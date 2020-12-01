@@ -25,7 +25,7 @@
   "dependencies": {
     "app-root-path": "^3.0.0",
     "chai": "^4.2.0",
-    "config": "^3.3.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
     "express-winston": "^4.0.5",
@@ -39,5 +39,8 @@
   "jest": {
     "verbose": true,
     "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "got": "^11.8.0"
   }
 }

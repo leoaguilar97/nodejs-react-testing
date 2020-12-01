@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config()
 const connectDB = require('./config/db');
 const expressWinston = require('express-winston');
 const logFiles = require('./config/logger');
@@ -14,7 +15,7 @@ app.use(expressWinston.logger({
     ]
 }));
 
-app.use('/api/v1/users', require('./controllers/users'));
+app.use('/api/v1/users', require('./controllers/IndividualClientController'));
 
 app.use(expressWinston.errorLogger({
     transports: [
@@ -24,4 +25,7 @@ app.use(expressWinston.errorLogger({
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => global.log.info(`API Iniciada en http://localhost:${PORT}`));
+const server = app.listen(PORT, () => global.log.info(`API Iniciada en http://localhost:${PORT}`));
+
+module.exports = { server, PORT };
+

@@ -1,10 +1,9 @@
 const chai = require('chai');
-const sinon = require('sinon');
 const faker = require('faker');
+const { server, PORT } = require('../index');
+const got = require('got');
 
 const { expect } = chai;
-
-const Users = require('../controllers/users');
 
 global.log = {
     info: console.log,
@@ -12,65 +11,37 @@ global.log = {
     error: console.error
 };
 
-/*
-TODO: Realizar pruebas, solo se inicializó el framework.
-*/
-
-var sandbox;
 beforeEach(function () {
-    sandbox = sinon.createSandbox();
     jest.useFakeTimers();
 });
 
 afterEach(function () {
-    sandbox.restore();
 });
 
 describe('Usuarios', () => {
-    it('Obtener todos los usuarios', done => {
-
-        let req = {};
-        let res = {
-            send: () => { },
-            status: sinon.stub().returnsThis()
-        };
+    it('Obtener todos los usuarios', async () => {
+        const response = await got('')
 
 
-        const mock = sinon.mock(res);
+    });
 
-        mock.expects("send").once().withExactArgs({
-            message: "Usuario actualizado correctamente."
-        });
-
-        Users.
-
-            expect(res.status.calledOnce).to.be.true;
-        expect(res.status.firstCall.calledWithExactly(200)).to.be.true;
-
-        mock.verify();
-
-        done();
-
+    it('Obtener un usuario', async () => {
         return true;
     });
 
-    it('Obtener un usuario', done => {
+    it('Crear un usuario', async () => {
         return true;
     });
 
-    it('Crear un usuario', done => {
+    it('Modificar un usuario', async () => {
         return true;
     });
 
-    it('Modificar un usuario', done => {
+    it('Eliminar un usuario', async () => {
         return true;
     });
 
-    it('Eliminar un usuario', done => {
-        return true;
-    });
-
-    it('Eliminar todos los usuarios', done => {
+    it('Eliminar todos los usuarios', async () => {
         return true;
     });
 });

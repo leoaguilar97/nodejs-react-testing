@@ -1,14 +1,14 @@
 
 const mongoose = require('mongoose');
-const config = require('config');
-const db = config.get('mongoURI');
+const { DB_URI } = require('../config');
 
 const connectDB = async () => {
+    console.log(DB_URI);
     if (process.env.NODE_ENV == 'test') {
-        console.log('TESTING!');
+        console.debug('TESTING ENVIRONMENT');
     }
     try {
-        await mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
+        await mongoose.connect(DB_URI, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
         global.log.debug('MongoDB conectado');
     }
     catch (err) {
