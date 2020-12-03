@@ -32,7 +32,7 @@ exports.upsert = async (code, userData) => {
         code = randomId();
         userData.code = code;
     }
-    const user = await User.findOneAndUpdate(code, userData, { upsert: true });
+    const user = await User.findOneAndUpdate({ code }, userData, { upsert: true, new: true }).exec();
     return { result: user };
 };
 
