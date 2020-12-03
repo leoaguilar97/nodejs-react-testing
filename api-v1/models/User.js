@@ -1,10 +1,6 @@
 
-const nanoid = require('nanoid');
+const { randomId } = require('../config/nanoid');
 const mongoose = require('mongoose');
-
-const alphabet = process.env.ALPHABET;
-
-const randomId = nanoid.customAlphabet(alphabet, 8);
 
 const UserSchema = new mongoose.Schema({
     code: {

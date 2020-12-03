@@ -1,6 +1,6 @@
 
-const { post } = require('../controllers/IndividualClientController');
 const User = require('../models/User');
+const { randomId } = require('../config/nanoid');
 
 exports.getAll = async ({ page, limit }) => {
     const users = await User.find({})
@@ -27,10 +27,13 @@ exports.get = async code => {
     return { result: user };
 };
 
-exports.create = async userData => {
-    const user = new User(userData);
-    const newUser = await user.save();
-    return { result: newUser };
+exports.upsert = async (code, userData) => {
+    if (!code) {
+        code = randomId();
+        userData.code = code;
+    }
+    const user = await User.findOneAndUpdate(code, userData, { upsert: true });
+    return { result: user };
 };
 
 exports.update = async (code, userData) => {
