@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config()
-const {connectDB, connectCache } = require('./config/db');
+const { connectDB, connectCache } = require('./config/db');
 const expressWinston = require('express-winston');
 const logFiles = require('./config/logger');
 

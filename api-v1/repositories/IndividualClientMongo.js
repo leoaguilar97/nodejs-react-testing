@@ -1,6 +1,7 @@
 
 const User = require('../models/User');
 const { randomId } = require('../config/nanoid');
+const { setCache, getCache, cleanCache } = require('./CacheRedis');
 
 exports.getAll = async ({ page, limit }) => {
     const users = await User.find({})
@@ -20,10 +21,17 @@ exports.getAll = async ({ page, limit }) => {
 };
 
 exports.get = async code => {
-    const user = await User.findOne({ code }).exec();
+    let user = getCache(code);
     if (!user) {
-        throw { message: 'Usuario no encontrado', status: 404 };
+        user = await User.findOne({ code }).exec();
+
+        if (!user) {
+            throw { message: 'Usuario no encontrado', status: 404 };
+        }
+
+        setCache(code, user);
     }
+
     return { result: user };
 };
 
@@ -33,6 +41,7 @@ exports.upsert = async (code, userData) => {
         userData.code = code;
     }
     const user = await User.findOneAndUpdate({ code }, userData, { upsert: true, new: true }).exec();
+    setCache(code, user);
     return { result: user };
 };
 
@@ -41,6 +50,10 @@ exports.update = async (code, userData) => {
     if (!modifiedUser) {
         throw { message: 'Usuario no encontrado', status: 404 };
     }
+
+    // TODO: Rutina para actualizar todos los campos
+    setCache(code, modifiedUser);
+
     return { result: modifiedUser };
 };
 
@@ -49,6 +62,9 @@ exports.deleteOne = async (code) => {
     if (!removedUser) {
         throw { message: 'Usuario no encontrado', status: 404 };
     }
+
+    cleanCache(code);
+
     return { result: removedUser };
 };
 

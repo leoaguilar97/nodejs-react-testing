@@ -1,8 +1,12 @@
 
 const mongoose = require('mongoose');
-const { DB_URI } = require('../config');
+
+const { DB_URI, CACHE_URI } = require('../config');
 const redis = require('redis');
-const redisCllient = {};
+
+const redisClient = {};
+const Promise = require('bluebird');
+
 
 const connectDB = async () => {
     if (process.env.NODE_ENV == 'test') {
@@ -24,10 +28,9 @@ const connectCache = async () => {
     }
 
     try {
+        redisClient = await Promise.promisifyAll(redis.createClient(CACHE_URI))
 
-        redisCllient.db = await redis.createClient('redis://0.0.0.0:6379')
-
-        redisCllient.db.on("error", function (error) {
+        redisClient.on("error", function (error) {
             global.log.error(error);
         });
 
@@ -35,10 +38,10 @@ const connectCache = async () => {
     }
     catch (err) {
         await global.log.error(err);
-        process.exit(1);
+        //process.exit(1);
     }
 }
 
 module.exports = {
-    connectDB, connectCache, redisCllient
+    connectDB, connectCache, redisClient
 };
