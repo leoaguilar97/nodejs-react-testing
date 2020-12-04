@@ -5,9 +5,6 @@ const { connectDB, connectCache } = require('./config/db');
 const expressWinston = require('express-winston');
 const logFiles = require('./config/logger');
 
-connectDB();
-connectCache();
-
 app.use(express.json({ extended: false }));
 
 app.use(expressWinston.logger({

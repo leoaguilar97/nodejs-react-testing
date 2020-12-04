@@ -1,11 +1,12 @@
 
-const { redisClient } = require('../config/db');
+
+const redisClient = global.cache;
 
 const setCache = async (code, obj) => {
     const jsonobj = JSON.stringify(obj);
 
     try {
-        await redisClient.setAsync(code, obj);
+        await global.cache.set(code, jsonobj);
         global.log.debug({ msg: 'Datos guardados en cache', code, jsonobj })
         return true;
     }
@@ -18,11 +19,11 @@ const setCache = async (code, obj) => {
 const getCache = async (code) => {
     try {
         global.log.debug({ msg: 'Obteniendo del cache', code });
-        const cached = await redisClient.getAsync(code);
+        const cached = await global.cache.getAsync(code);
         if (cached) {
             const jsonCached = JSON.parse(cached);
             global.log.debug({ msg: 'Obtenido del cache', cached, jsonCached, code });
-
+            jsonCached.cached = true;
             return jsonCached;
         }
     }
@@ -36,7 +37,7 @@ const getCache = async (code) => {
 const cleanCache = async (code) => {
     try {
         global.log.debug({ msg: 'Eliminado del cache', code });
-        await redisClient.del(code);
+        await global.cache.del(code);
     }
     catch (err) {
         await global.log.error(err);

@@ -21,7 +21,7 @@ exports.getAll = async ({ page, limit }) => {
 };
 
 exports.get = async code => {
-    let user = getCache(code);
+    let user = await getCache(code);
     if (!user) {
         user = await User.findOne({ code }).exec();
 
