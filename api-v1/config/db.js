@@ -7,9 +7,6 @@ const Promise = require('bluebird');
 
 
 const connectDB = async () => {
-    if (process.env.NODE_ENV == 'test') {
-        console.debug('TESTING ENVIRONMENT');
-    }
     try {
         await mongoose.connect(DB_URI, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
         global.log.debug('MongoDB conectado');
@@ -33,13 +30,15 @@ const connectCache = async () => {
         global.cache = redisClient;
     }
     catch (err) {
-        await global.log.error(err);
         await global.log.error('CACHE NO CONECTADA');
+        await global.log.error(err);
+
+        const errorHandler = (params) => { throw { msg: 'No hay cache conectado', params } };
 
         global.cache = {
-            set: () => { },
-            getAsync: () => { },
-            delete: () => { }
+            set: errorHandler,
+            getAsync: errorHandler,
+            del: errorHandler
         }
     }
 }
