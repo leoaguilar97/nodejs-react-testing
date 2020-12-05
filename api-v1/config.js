@@ -2,8 +2,8 @@
 
 const appRoot = require('app-root-path');
 
-const DB_URI = process.env.DB_URI;
-const CACHE_URI = process.env.CACHE_URI;
+const DB_URI = process.env.NODE_ENV == 'testing' ? process.env.DB_TESTING_URI : process.env.DB_URI;
+const CACHE_URI = process.env.NODE_ENV == 'testing' ? process.env.CACHE_TESTING_URI : process.env.CACHE_URI;
 const ALPHABET = process.env.ALPHABET;
 const LOG_PATH = process.env.LOG_PATH || `${appRoot}/logs`;
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';

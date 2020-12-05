@@ -2,9 +2,9 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const faker = require('faker');
 const { server, PORT } = require('../index');
-const got = require('got');
-
 chai.use(chaiHttp);
+
+process.env.NODE_ENV = 'testing';
 
 const { expect } = chai;
 

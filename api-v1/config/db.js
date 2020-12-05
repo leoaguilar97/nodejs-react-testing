@@ -21,10 +21,6 @@ const connectDB = async () => {
 }
 
 const connectCache = async () => {
-    if (process.env.NODE_ENV == 'test') {
-        console.debug('TESTING ENVIRONMENT');
-    }
-
     try {
         let redisClient = await Promise.promisifyAll(redis.createClient(CACHE_URI))
 
@@ -33,12 +29,18 @@ const connectCache = async () => {
         });
 
         global.log.debug('Redis conectado');
-        
+
         global.cache = redisClient;
     }
     catch (err) {
         await global.log.error(err);
-        process.exit(1);
+        await global.log.error('CACHE NO CONECTADA');
+
+        global.cache = {
+            set: () => { },
+            getAsync: () => { },
+            delete: () => { }
+        }
     }
 }
 
